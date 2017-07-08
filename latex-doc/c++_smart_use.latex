@@ -1,0 +1,60 @@
+%HW 2 answer .tex file
+
+\documentclass{article}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{cs603 :: Geometric Algorithms } 
+\author{Pintu Lal M\\
+        120050018 \\}
+} 
+\date{\today}  
+\maketitle
+
+
+
+\section{Answer 1}
+assumption/understanding : \\
+1) partial match query either a horizontal line or a vertical line in 2-d(by defination of question)
+
+\subsection{1.a}
+suppose partical query is over  x cordinate of point [x,y].
+x is a vertical line, so every vertical line of 2-d tree is ether left or overlapping with x  (mean left side )or right side of x and horizontal lines split x in both (upper and lower) sides .\\
+
+Even height node (vertical node )  has only one subtree which can be a part of partial maching output.but odd height node (horizontal node) has both subtree as part of solution .\\
+
+So if a subtree has n leaves and  the number of nodes which is going to checked is G(n)\\
+
+then if parent root of subtree is a even height node then G(n) = 1+G(n/2)
+else G(n) = 1+2*G(n/2) for odd height node .\\
+
+by combining even,odd node in single node(for calculation ) we get \\
+1) G(n) = 2+2*G(n/4) or \\
+2)G(n) = 3+2*G(n/4).\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{1.jpg}
+  \caption{2-dtree.}
+  \label{fig::2d_tree}
+\end{figure}
+Figure \ref{fig::2d_tree} .
+
+2-d binary tree has log(n) height so conbined nodes has log(n)/2 height .\\
+
+G(n) = 2+2*(2+2*G(n/16))\\
+G(n) = 2 +2^2+2^2 *G(n/16)\\
+G(n) = 2 + ........2^\[\log(n)/2\] * G(1)\\
+G(n) = 2(1+........2^\[\log(n)/2-1\] ) \\
+G(n) = 2*2^\[\log(n)/2\] \\
+G(n) = 2*2^\[\log(\sqrt(n)) \]\\
+G(n) = 2\sqrt(n) \\
+G(n) = O(\sqrt(n))\\
+ 
+For every report event , time O(1)\\
+so if there are k reported leaf node G(n) = O(\sqrt(n)+k)\\
+
+
+\end{document}  %End of document.
