@@ -1,0 +1,1358 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'SQL_ASCII';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: age_group; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE age_group (
+    event_id bigint NOT NULL,
+    low_age integer,
+    up_age integer,
+    ratio integer
+);
+
+
+ALTER TABLE age_group OWNER TO ram;
+
+--
+-- Name: age_group_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE age_group_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE age_group_event_id_seq OWNER TO ram;
+
+--
+-- Name: age_group_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE age_group_event_id_seq OWNED BY age_group.event_id;
+
+
+--
+-- Name: audience_demographics; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE audience_demographics (
+    event_id bigint NOT NULL,
+    type_name character varying(50),
+    type_value character varying(50)
+);
+
+
+ALTER TABLE audience_demographics OWNER TO ram;
+
+--
+-- Name: audience_demographics_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE audience_demographics_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE audience_demographics_event_id_seq OWNER TO ram;
+
+--
+-- Name: audience_demographics_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE audience_demographics_event_id_seq OWNED BY audience_demographics.event_id;
+
+
+--
+-- Name: contact_mail; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE contact_mail (
+    event_id bigint NOT NULL,
+    name character varying(50),
+    mobile character varying(15),
+    email character varying(50),
+    company character varying(50),
+    message text
+);
+
+
+ALTER TABLE contact_mail OWNER TO ram;
+
+--
+-- Name: contact_mail_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE contact_mail_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contact_mail_event_id_seq OWNER TO ram;
+
+--
+-- Name: contact_mail_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE contact_mail_event_id_seq OWNED BY contact_mail.event_id;
+
+
+--
+-- Name: deliverable; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE deliverable (
+    event_id bigint NOT NULL,
+    deliverable_id integer,
+    deliverable_name character varying(50),
+    description character varying(500),
+    deliverable_image text
+);
+
+
+ALTER TABLE deliverable OWNER TO ram;
+
+--
+-- Name: deliverable_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE deliverable_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE deliverable_event_id_seq OWNER TO ram;
+
+--
+-- Name: deliverable_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE deliverable_event_id_seq OWNED BY deliverable.event_id;
+
+
+--
+-- Name: demographics; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE demographics (
+    event_id bigint NOT NULL,
+    type_name character varying(50),
+    type_count integer
+);
+
+
+ALTER TABLE demographics OWNER TO ram;
+
+--
+-- Name: demographics_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE demographics_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE demographics_event_id_seq OWNER TO ram;
+
+--
+-- Name: demographics_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE demographics_event_id_seq OWNED BY demographics.event_id;
+
+
+--
+-- Name: event; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE event (
+    event_id bigint NOT NULL,
+    name character varying(100) NOT NULL,
+    category character varying(50) NOT NULL,
+    genre character varying(50) NOT NULL,
+    city character varying(50) NOT NULL,
+    address character varying(500) NOT NULL,
+    country character varying(50) NOT NULL,
+    scope character varying(50) NOT NULL,
+    frequency character varying(50) NOT NULL,
+    website character varying(100),
+    email character varying(50),
+    organizer character varying(50) NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    link_for_req text,
+    description text NOT NULL,
+    team_descritpion text,
+    budget bigint,
+    tags character varying(500),
+    verifiy boolean DEFAULT false
+);
+
+
+ALTER TABLE event OWNER TO ram;
+
+--
+-- Name: event_contact; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE event_contact (
+    event_id bigint NOT NULL,
+    password character varying(50),
+    contact_name character varying(50) NOT NULL,
+    contact_email character varying(50) NOT NULL,
+    contact_mobile character varying(15) NOT NULL,
+    contact_office character varying(15)
+);
+
+
+ALTER TABLE event_contact OWNER TO ram;
+
+--
+-- Name: event_contact_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE event_contact_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE event_contact_event_id_seq OWNER TO ram;
+
+--
+-- Name: event_contact_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE event_contact_event_id_seq OWNED BY event_contact.event_id;
+
+
+--
+-- Name: event_contactplus; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE event_contactplus (
+    event_id bigint NOT NULL,
+    user_info_name character varying(50),
+    user_info_value text
+);
+
+
+ALTER TABLE event_contactplus OWNER TO ram;
+
+--
+-- Name: event_contactplus_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE event_contactplus_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE event_contactplus_event_id_seq OWNER TO ram;
+
+--
+-- Name: event_contactplus_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE event_contactplus_event_id_seq OWNED BY event_contactplus.event_id;
+
+
+--
+-- Name: event_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE event_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE event_event_id_seq OWNER TO ram;
+
+--
+-- Name: event_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE event_event_id_seq OWNED BY event.event_id;
+
+
+--
+-- Name: eventplus; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE eventplus (
+    event_id bigint NOT NULL,
+    logo text,
+    currency character varying(5) NOT NULL,
+    total_audience integer,
+    gender_ratio integer NOT NULL,
+    audience_description text
+);
+
+
+ALTER TABLE eventplus OWNER TO ram;
+
+--
+-- Name: eventplus_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE eventplus_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE eventplus_event_id_seq OWNER TO ram;
+
+--
+-- Name: eventplus_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE eventplus_event_id_seq OWNED BY eventplus.event_id;
+
+
+--
+-- Name: key_numbers; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE key_numbers (
+    event_id bigint NOT NULL,
+    type_name character varying(50),
+    type_count integer
+);
+
+
+ALTER TABLE key_numbers OWNER TO ram;
+
+--
+-- Name: key_numbers_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE key_numbers_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE key_numbers_event_id_seq OWNER TO ram;
+
+--
+-- Name: key_numbers_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE key_numbers_event_id_seq OWNED BY key_numbers.event_id;
+
+
+--
+-- Name: offer_deliver; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE offer_deliver (
+    event_id bigint NOT NULL,
+    offer_id integer,
+    deliverable_id integer,
+    quantity integer
+);
+
+
+ALTER TABLE offer_deliver OWNER TO ram;
+
+--
+-- Name: offer_deliver_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE offer_deliver_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE offer_deliver_event_id_seq OWNER TO ram;
+
+--
+-- Name: offer_deliver_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE offer_deliver_event_id_seq OWNED BY offer_deliver.event_id;
+
+
+--
+-- Name: offers; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE offers (
+    event_id bigint NOT NULL,
+    offer_id integer,
+    offer_name character varying(50),
+    cost integer,
+    currency character varying(5),
+    description text,
+    total integer
+);
+
+
+ALTER TABLE offers OWNER TO ram;
+
+--
+-- Name: offers_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE offers_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE offers_event_id_seq OWNER TO ram;
+
+--
+-- Name: offers_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE offers_event_id_seq OWNED BY offers.event_id;
+
+
+--
+-- Name: offlinepromotion; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE offlinepromotion (
+    event_id bigint NOT NULL,
+    names character varying(500),
+    description text
+);
+
+
+ALTER TABLE offlinepromotion OWNER TO ram;
+
+--
+-- Name: offlinepromotion_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE offlinepromotion_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE offlinepromotion_event_id_seq OWNER TO ram;
+
+--
+-- Name: offlinepromotion_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE offlinepromotion_event_id_seq OWNED BY offlinepromotion.event_id;
+
+
+--
+-- Name: online_profile; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE online_profile (
+    event_id bigint NOT NULL,
+    site_name character varying(50),
+    link text
+);
+
+
+ALTER TABLE online_profile OWNER TO ram;
+
+--
+-- Name: online_profile_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE online_profile_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE online_profile_event_id_seq OWNER TO ram;
+
+--
+-- Name: online_profile_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE online_profile_event_id_seq OWNED BY online_profile.event_id;
+
+
+--
+-- Name: onlinepromotion; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE onlinepromotion (
+    event_id bigint NOT NULL,
+    site_name character varying(50),
+    link text
+);
+
+
+ALTER TABLE onlinepromotion OWNER TO ram;
+
+--
+-- Name: onlinepromotion_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE onlinepromotion_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE onlinepromotion_event_id_seq OWNER TO ram;
+
+--
+-- Name: onlinepromotion_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE onlinepromotion_event_id_seq OWNED BY onlinepromotion.event_id;
+
+
+--
+-- Name: sponsorship; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE sponsorship (
+    event_id bigint NOT NULL,
+    type character varying(50)
+);
+
+
+ALTER TABLE sponsorship OWNER TO ram;
+
+--
+-- Name: sponsorship_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE sponsorship_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sponsorship_event_id_seq OWNER TO ram;
+
+--
+-- Name: sponsorship_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE sponsorship_event_id_seq OWNED BY sponsorship.event_id;
+
+
+--
+-- Name: sponsorship_finance; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE sponsorship_finance (
+    event_id bigint NOT NULL,
+    type character varying(50),
+    fund bigint
+);
+
+
+ALTER TABLE sponsorship_finance OWNER TO ram;
+
+--
+-- Name: sponsorship_finance_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE sponsorship_finance_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sponsorship_finance_event_id_seq OWNER TO ram;
+
+--
+-- Name: sponsorship_finance_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE sponsorship_finance_event_id_seq OWNED BY sponsorship_finance.event_id;
+
+
+--
+-- Name: subscription; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE subscription (
+    email character varying(50) NOT NULL,
+    user_type smallint NOT NULL
+);
+
+
+ALTER TABLE subscription OWNER TO ram;
+
+--
+-- Name: temp_rel; Type: TABLE; Schema: public; Owner: ram
+--
+
+CREATE TABLE temp_rel (
+    event_id bigint NOT NULL,
+    temp_id bigint NOT NULL
+);
+
+
+ALTER TABLE temp_rel OWNER TO ram;
+
+--
+-- Name: temp_rel_event_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE temp_rel_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE temp_rel_event_id_seq OWNER TO ram;
+
+--
+-- Name: temp_rel_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE temp_rel_event_id_seq OWNED BY temp_rel.event_id;
+
+
+--
+-- Name: temp_rel_temp_id_seq; Type: SEQUENCE; Schema: public; Owner: ram
+--
+
+CREATE SEQUENCE temp_rel_temp_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE temp_rel_temp_id_seq OWNER TO ram;
+
+--
+-- Name: temp_rel_temp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ram
+--
+
+ALTER SEQUENCE temp_rel_temp_id_seq OWNED BY temp_rel.temp_id;
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY age_group ALTER COLUMN event_id SET DEFAULT nextval('age_group_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY audience_demographics ALTER COLUMN event_id SET DEFAULT nextval('audience_demographics_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY contact_mail ALTER COLUMN event_id SET DEFAULT nextval('contact_mail_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY deliverable ALTER COLUMN event_id SET DEFAULT nextval('deliverable_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY demographics ALTER COLUMN event_id SET DEFAULT nextval('demographics_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event ALTER COLUMN event_id SET DEFAULT nextval('event_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event_contact ALTER COLUMN event_id SET DEFAULT nextval('event_contact_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event_contactplus ALTER COLUMN event_id SET DEFAULT nextval('event_contactplus_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY eventplus ALTER COLUMN event_id SET DEFAULT nextval('eventplus_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY key_numbers ALTER COLUMN event_id SET DEFAULT nextval('key_numbers_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offer_deliver ALTER COLUMN event_id SET DEFAULT nextval('offer_deliver_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offers ALTER COLUMN event_id SET DEFAULT nextval('offers_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offlinepromotion ALTER COLUMN event_id SET DEFAULT nextval('offlinepromotion_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY online_profile ALTER COLUMN event_id SET DEFAULT nextval('online_profile_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY onlinepromotion ALTER COLUMN event_id SET DEFAULT nextval('onlinepromotion_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY sponsorship ALTER COLUMN event_id SET DEFAULT nextval('sponsorship_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY sponsorship_finance ALTER COLUMN event_id SET DEFAULT nextval('sponsorship_finance_event_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY temp_rel ALTER COLUMN event_id SET DEFAULT nextval('temp_rel_event_id_seq'::regclass);
+
+
+--
+-- Name: temp_id; Type: DEFAULT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY temp_rel ALTER COLUMN temp_id SET DEFAULT nextval('temp_rel_temp_id_seq'::regclass);
+
+
+--
+-- Data for Name: age_group; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY age_group (event_id, low_age, up_age, ratio) FROM stdin;
+1	0	11	10
+1	12	18	30
+1	18	25	30
+1	25	40	20
+1	40	65	10
+\.
+
+
+--
+-- Name: age_group_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('age_group_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: audience_demographics; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY audience_demographics (event_id, type_name, type_value) FROM stdin;
+1	edu_background	In school
+1	edu_background	In some college
+1	edu_background	Graduate
+1	edu_background	Post graduate
+1	profession	Unemployed
+1	profession	Employed
+1	profession	Self owned business person
+1	income_level	Medium
+1	income_level	High
+\.
+
+
+--
+-- Name: audience_demographics_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('audience_demographics_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: contact_mail; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY contact_mail (event_id, name, mobile, email, company, message) FROM stdin;
+\.
+
+
+--
+-- Name: contact_mail_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('contact_mail_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: deliverable; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY deliverable (event_id, deliverable_id, deliverable_name, description, deliverable_image) FROM stdin;
+1	1	Banners		
+1	2	Special gate		
+1	4	Special announcement from stage		
+1	5	Announcement on TV / Radio		
+1	6	Name on T-shirts		
+\.
+
+
+--
+-- Name: deliverable_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('deliverable_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: demographics; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY demographics (event_id, type_name, type_count) FROM stdin;
+1	Webdeveloper	30
+1	Webdesigner	15
+1	Business guys	55
+\.
+
+
+--
+-- Name: demographics_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('demographics_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY event (event_id, name, category, genre, city, address, country, scope, frequency, website, email, organizer, start_date, end_date, link_for_req, description, team_descritpion, budget, tags, verifiy) FROM stdin;
+1	JEFTO name	College Festival	Technical	mumbai	mumbai__400076	UK	Regional	Week	https://bitbucket.org/pintulalm/jefto	pintulalmeena@hotmail.com	group name	2017-01-08	2017-01-10	https://bitbucket.org/pintulalm/jefto	 ancient manuscripts, another means to divide sentences into paragraphs was a line break (newline) followed by an initial at the beginning of the next paragraph. An initial is an oversize capital letter, sometimes outdented beyond the margin of text. This style can be seen, for example, in the original Old English manuscript of Beowulf. Outdenting is still used in English 	https://bitbucket.org/pintulalm/jefto\r\nhttps://bitbucket.org/pintulalm/jefto\r\nhttps://bitbucket.org/pintulalm/jefto\r\nhttps://bitbucket.org/pintulalm/jefto	24839	tag,related	f
+\.
+
+
+--
+-- Data for Name: event_contact; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY event_contact (event_id, password, contact_name, contact_email, contact_mobile, contact_office) FROM stdin;
+1	\N	Pintu Lal Meena	pintulalmeena@hotmail.com	9987217204	2493483
+\.
+
+
+--
+-- Name: event_contact_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('event_contact_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: event_contactplus; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY event_contactplus (event_id, user_info_name, user_info_value) FROM stdin;
+\.
+
+
+--
+-- Name: event_contactplus_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('event_contactplus_event_id_seq', 1, false);
+
+
+--
+-- Name: event_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('event_event_id_seq', 1, true);
+
+
+--
+-- Data for Name: eventplus; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY eventplus (event_id, logo, currency, total_audience, gender_ratio, audience_description) FROM stdin;
+1	event_logos/default_logo.png	USD	3434	29	 ancient manuscripts, another means to divide sentences into paragraphs was a line break (newline) followed by an initial at the beginning of the next paragraph. An initial is an oversize capital letter, sometimes outdented beyond the margin of text. This style can be seen, for example, in the original Old English manuscript of Beowulf. Outdenting is still used in English 
+\.
+
+
+--
+-- Name: eventplus_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('eventplus_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: key_numbers; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY key_numbers (event_id, type_name, type_count) FROM stdin;
+1	Competition	343
+1	Events	343
+1	Speakers	34
+\.
+
+
+--
+-- Name: key_numbers_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('key_numbers_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: offer_deliver; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY offer_deliver (event_id, offer_id, deliverable_id, quantity) FROM stdin;
+1	1	1	24
+1	1	2	341
+1	1	4	89
+1	1	5	98
+1	1	6	899
+1	2	1	24
+1	2	2	87
+1	2	4	99
+1	2	5	98
+1	2	6	7
+1	3	1	35
+1	3	2	87
+1	3	4	98
+1	3	5	98
+1	3	6	7
+\.
+
+
+--
+-- Name: offer_deliver_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('offer_deliver_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: offers; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY offers (event_id, offer_id, offer_name, cost, currency, description, total) FROM stdin;
+1	1	Title	34	USD		42
+1	2	Gold	432	USD		23
+1	3	Silver	4	USD		22
+\.
+
+
+--
+-- Name: offers_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('offers_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: offlinepromotion; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY offlinepromotion (event_id, names, description) FROM stdin;
+1	Bags	No description
+1	Conference Badges	No description
+1	airplay	telivision,okay
+1	radio	radio,okay
+1	Newspaper	printmedia
+\.
+
+
+--
+-- Name: offlinepromotion_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('offlinepromotion_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: online_profile; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY online_profile (event_id, site_name, link) FROM stdin;
+1	twitter.com	pintlal
+1	linkdin.com	in/pintulalm
+1	facebook.com	pintulalm
+\.
+
+
+--
+-- Name: online_profile_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('online_profile_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: onlinepromotion; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY onlinepromotion (event_id, site_name, link) FROM stdin;
+1	Yourstory	ystoee
+1	Forbes	forbes
+1	TechCrunch	tech
+\.
+
+
+--
+-- Name: onlinepromotion_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('onlinepromotion_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: sponsorship; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY sponsorship (event_id, type) FROM stdin;
+1	Venue
+1	Food
+1	In media
+\.
+
+
+--
+-- Name: sponsorship_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('sponsorship_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: sponsorship_finance; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY sponsorship_finance (event_id, type, fund) FROM stdin;
+1	Financial	343
+\.
+
+
+--
+-- Name: sponsorship_finance_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('sponsorship_finance_event_id_seq', 1, false);
+
+
+--
+-- Data for Name: subscription; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY subscription (email, user_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: temp_rel; Type: TABLE DATA; Schema: public; Owner: ram
+--
+
+COPY temp_rel (event_id, temp_id) FROM stdin;
+1	1001
+\.
+
+
+--
+-- Name: temp_rel_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('temp_rel_event_id_seq', 1, false);
+
+
+--
+-- Name: temp_rel_temp_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ram
+--
+
+SELECT pg_catalog.setval('temp_rel_temp_id_seq', 1, false);
+
+
+--
+-- Name: event_pkey; Type: CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event
+    ADD CONSTRAINT event_pkey PRIMARY KEY (event_id);
+
+
+--
+-- Name: subscription_pkey; Type: CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY subscription
+    ADD CONSTRAINT subscription_pkey PRIMARY KEY (email, user_type);
+
+
+--
+-- Name: age_group_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY age_group
+    ADD CONSTRAINT age_group_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: audience_demographics_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY audience_demographics
+    ADD CONSTRAINT audience_demographics_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: contact_mail_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY contact_mail
+    ADD CONSTRAINT contact_mail_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: deliverable_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY deliverable
+    ADD CONSTRAINT deliverable_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: demographics_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY demographics
+    ADD CONSTRAINT demographics_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: event_contact_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event_contact
+    ADD CONSTRAINT event_contact_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: event_contactplus_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY event_contactplus
+    ADD CONSTRAINT event_contactplus_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: eventplus_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY eventplus
+    ADD CONSTRAINT eventplus_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: key_numbers_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY key_numbers
+    ADD CONSTRAINT key_numbers_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: offer_deliver_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offer_deliver
+    ADD CONSTRAINT offer_deliver_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: offers_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offers
+    ADD CONSTRAINT offers_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: offlinepromotion_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY offlinepromotion
+    ADD CONSTRAINT offlinepromotion_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: online_profile_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY online_profile
+    ADD CONSTRAINT online_profile_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: onlinepromotion_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY onlinepromotion
+    ADD CONSTRAINT onlinepromotion_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sponsorship_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY sponsorship
+    ADD CONSTRAINT sponsorship_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: sponsorship_finance_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY sponsorship_finance
+    ADD CONSTRAINT sponsorship_finance_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: temp_rel_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ram
+--
+
+ALTER TABLE ONLY temp_rel
+    ADD CONSTRAINT temp_rel_event_id_fkey FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE CASCADE;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
